@@ -1,0 +1,23 @@
+<launch>
+  <node pkg="rosaria" type="RosAria" name="RosAria0" output="screen">
+
+  <!--   <param name="port" value="/dev/ttyUSB0"/> -->
+
+     <param name="tf_prefix" value="robot_0" />
+     <param name="port" value="127.0.0.1:8101"/>
+     <remap from="/RosAria0/pose" to="/robot_0/odom" /> 
+     <remap from="/RosAria0/cmd_vel" to="/robot_0/cmd_vel" />
+  </node>
+
+  <node pkg="tf" type="static_transform_publisher" name="link0" args="0.1 0.0 0.3 0.0 0.0 0.0 /robot_0/base_link /robot_0/laser 100" />
+
+
+  <!-- remap from="/RosAria/cmd_vel" to="/cmd_vel"/ -->
+
+  <node name="hokuyo_node0" pkg="hokuyo_node" type="hokuyo_node">
+       <param name="tf_prefix" value="robot_0" />
+       <param name="port" value="/dev/ttyACM0"/>
+       <remap from="/scan" to="/robot_0/scan"/> 
+  </node>  
+
+</launch>
